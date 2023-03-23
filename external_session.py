@@ -14,7 +14,7 @@ from ..util.requests_to_curl import RequestsToCurl  # type: ignore # pylint: dis
 from ..util.util import Util  # type: ignore # pylint: disable=import-error
 from .rate_limit_handler import RateLimitHandler
 
-# get tcex logger
+# get logger
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 # disable ssl warning message

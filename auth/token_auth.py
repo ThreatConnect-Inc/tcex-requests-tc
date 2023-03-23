@@ -7,37 +7,28 @@ from collections.abc import Callable
 from requests import Request  # TYPE-CHECKING
 from requests import auth
 
-from ...app.token import Token  # type: ignore # pylint: disable=import-error
-from ...input.field_type.sensitive import Sensitive  # type: ignore # pylint: disable=import-error
+from ...input.field_type.sensitive import Sensitive
 
 
 class TokenAuth(auth.AuthBase):
     """ThreatConnect HMAC Authorization"""
 
-    def __init__(self, tc_token: Callable | Sensitive | str | Token):
+    def __init__(self, tc_token: Callable[..., Sensitive | str] | Sensitive | str):
         """Initialize the Class properties."""
-        # super().__init__()
         auth.AuthBase.__init__(self)
         self.tc_token = tc_token
 
     def _token_header(self):
         """Return HMAC Authorization header value."""
-        _token = None
-        if isinstance(self.tc_token, Token) and isinstance(
-            self.tc_token.token, Sensitive  # type: ignore
-        ):
-            # Token Module - The token module is provided that will handle authentication.
-            _token = self.tc_token.token.value  # type: ignore
-        elif callable(self.tc_token):
+        _token = self.tc_token
+        if callable(self.tc_token):
             # Callable - A callable method is provided that will return the token as a plain
             #     string. The callable will have to handle token renewal.
             _token = self.tc_token()
-        elif isinstance(self.tc_token, Sensitive):
+
+        if isinstance(_token, Sensitive):
             # Sensitive - A sensitive string type was passed. Likely no support for renewal.
-            _token = self.tc_token.value  # type: ignore
-        else:
-            # String - A string type was passed. Likely no support for renewal.
-            _token = self.tc_token
+            _token = _token.value
 
         # Return formatted token
         return f'TC-Token {_token}'

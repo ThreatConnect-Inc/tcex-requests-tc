@@ -3,7 +3,6 @@
 import time
 from collections.abc import Callable
 
-from ...app.token import Token  # type: ignore # pylint: disable=import-error
 from ...input.field_type.sensitive import Sensitive  # type: ignore # pylint: disable=import-error
 from .hmac_auth import HmacAuth
 from .token_auth import TokenAuth
@@ -16,9 +15,9 @@ class TcAuth(HmacAuth, TokenAuth):
         self,
         tc_api_access_id: str | None = None,
         tc_api_secret_key: Sensitive | None = None,
-        tc_token: Callable | str | Sensitive | Token | None = None,
+        tc_token: Callable | str | Sensitive | None = None,
     ):
-        """Initialize Class Properties."""
+        """Initialize instance properties."""
         if tc_api_access_id is not None and tc_api_secret_key is not None:
             HmacAuth.__init__(self, tc_api_access_id, tc_api_secret_key)
             self.auth_type = 'hmac'

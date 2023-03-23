@@ -14,7 +14,7 @@ from .auth.hmac_auth import HmacAuth
 from .auth.tc_auth import TcAuth
 from .auth.token_auth import TokenAuth
 
-# get tcex logger
+# get logger
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 # disable ssl warning message
@@ -28,9 +28,9 @@ class TcSession(Session):
         self,
         auth: HmacAuth | TokenAuth | TcAuth,
         base_url: str | None = None,
-        log_curl: bool = False,
+        log_curl: bool | None = False,
         proxies: dict[str, str] | None = None,
-        proxies_enabled: bool = False,
+        proxies_enabled: bool | None = False,
         user_agent: dict | None = None,
         verify: bool | str | None = True,
     ):
