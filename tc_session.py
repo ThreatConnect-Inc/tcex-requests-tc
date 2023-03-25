@@ -1,4 +1,4 @@
-"""ThreatConnect Requests Session"""
+"""TcEx Framework Module"""
 # standard library
 import logging
 

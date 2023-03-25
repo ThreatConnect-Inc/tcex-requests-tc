@@ -1,4 +1,4 @@
-"""TcEx HMAC Authorization"""
+"""TcEx Framework Module"""
 # standard library
 import hmac
 import time

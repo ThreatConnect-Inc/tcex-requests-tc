@@ -1,4 +1,4 @@
-"""The RateLimitHandler implements request throttling based on X-RateLimit headers.
+"""TcEx Framework Module
 
 See https://tools.ietf.org/id/draft-polli-ratelimit-headers-00.html for implementation details.
 """
@@ -12,7 +12,7 @@ from ..util import Util  # type: ignore # pylint: disable=import-error
 
 
 class RateLimitHandler:
-    """Rate-limiting implementation using X-RateLimit-<X> headers."""
+    """The RateLimitHandler implements request throttling based on X-RateLimit headers."""
 
     def __init__(
         self,

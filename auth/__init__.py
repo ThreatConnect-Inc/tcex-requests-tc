@@ -1,1 +1,1 @@
-"""TcEx Session Auth Module"""
+"""TcEx Framework Module"""

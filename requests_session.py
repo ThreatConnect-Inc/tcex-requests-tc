@@ -1,15 +1,13 @@
-"""TcEx Module"""
+"""TcEx Framework Module"""
 # standard library
 import logging
 from functools import cached_property
 
-# first-party
-from tcex_app_testing.input.model.module_requests_session_model import ModuleRequestsSessionModel
-from tcex_app_testing.pleb.proxies import proxies
-
-from ..app.config.install_json import InstallJson  # type: ignore # pylint: disable=import-error
-from ..pleb.registry import registry  # type: ignore # pylint: disable=import-error
-from ..pleb.scoped_property import scoped_property  # type: ignore # pylint: disable=import-error
+from ..app.config.install_json import InstallJson
+from ..input.model.module_requests_session_model import ModuleRequestsSessionModel
+from ..pleb.proxies import proxies
+from ..pleb.registry import registry
+from ..pleb.scoped_property import scoped_property
 from .auth.hmac_auth import HmacAuth
 from .auth.tc_auth import TcAuth
 from .auth.token_auth import TokenAuth
@@ -21,7 +19,7 @@ _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 
 class RequestsSession:
-    """TcEx Module"""
+    """Requests Session Class"""
 
     def __init__(self, model: ModuleRequestsSessionModel):
         """Initialize instance properties."""
