@@ -79,9 +79,19 @@ class RequestsSession:
         if verify is None:
             verify = self.model.tc_verify
 
+        tc_token = None
+        # 1. if token module is available, use token callback
+        # 2. if token is set in the model, use that (no renewal)
+        # 3. no token is not available, use api credentials
+        if not hasattr(registry.app, 'token') and self.install_json.is_external_app is False:
+            tc_token = registry.app.token.get_token
+        elif self.model.tc_token is not None:
+            tc_token = self.model.tc_token
+
         auth = auth or TcAuth(
             tc_api_access_id=self.model.tc_api_access_id,
             tc_api_secret_key=self.model.tc_api_secret_key,
+            tc_token=tc_token,
         )
 
         return TcSession(
