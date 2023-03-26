@@ -117,7 +117,6 @@ class ExternalSession(Session):
 
     Args:
         base_url: The base URL for all requests.
-        logger: An instance of Logger.
     """
 
     __attrs__ = [
