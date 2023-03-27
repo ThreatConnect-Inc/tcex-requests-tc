@@ -84,7 +84,8 @@ class RequestsSession:
         # 2. if token is set in the model, use that (no renewal)
         # 3. no token is not available, use api credentials
         if hasattr(registry.app, 'token') and self.install_json.is_external_app is False:
-            tc_token = registry.app.token.get_token
+            # token module is only available on tcex, not tcex-app-testing, or tcex-cli
+            tc_token = registry.app.token.get_token  # type: ignore
         elif self.model.tc_token is not None:
             tc_token = self.model.tc_token
 
