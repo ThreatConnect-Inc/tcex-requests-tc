@@ -47,7 +47,7 @@ def default_too_many_requests_handler(response: Response) -> float:
         seconds = retry_after
 
     # handle negative values
-    if isinstance(seconds, (float, int)) and seconds < 0:
+    if isinstance(seconds, float | int) and seconds < 0:
         seconds = retry_after
 
     return float(seconds)
@@ -266,6 +266,7 @@ class ExternalSession(Session):
         Args:
             method (str): The HTTP method
             url (str): The URL or path for the request.
+            kwargs: The keyword arguments to pass to the request.
 
         Returns:
             object: The requests Response object .
@@ -343,10 +344,13 @@ class ExternalSession(Session):
             retries: The number of retry attempts.
             backoff_factor: The backoff factor for retries.
             status_forcelist: A list of status code to retry on.
+            **kwargs: Additional keyword arguments to pass to the Retry object.
+
+        Keyword Args:
             urls: An optional URL to apply the retry. If not provided the retry
                 applies to all request with "https://".
         """
-        retry_object: object = Retry(
+        retry_object = Retry(
             total=retries,
             read=retries,
             connect=retries,
