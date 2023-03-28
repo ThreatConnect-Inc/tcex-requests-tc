@@ -6,19 +6,18 @@ from functools import cached_property
 from ..app.config.install_json import InstallJson
 from ..input.model.module_requests_session_model import ModuleRequestsSessionModel
 from ..pleb.proxies import proxies
-from ..pleb.registry import registry
 from ..pleb.scoped_property import scoped_property
+from ..registry import registry
 from .auth.hmac_auth import HmacAuth
 from .auth.tc_auth import TcAuth
 from .auth.token_auth import TokenAuth
-from .external_session import ExternalSession
 from .tc_session import TcSession
 
 # get logger
 _logger = logging.getLogger(__name__.split('.', maxsplit=1)[0])
 
 
-class RequestsSession:
+class RequestsTc:
     """Requests Session Class"""
 
     def __init__(self, model: ModuleRequestsSessionModel):
@@ -29,32 +28,7 @@ class RequestsSession:
         self.install_json = InstallJson()
         self.log = _logger
 
-    @cached_property
-    def external(self) -> ExternalSession:
-        """Return an instance of Requests Session configured for the ThreatConnect API."""
-        return self.get_session_external()
-
-    def get_session_external(self, log_curl: bool = True) -> ExternalSession:
-        """Return an instance of Requests Session configured for the ThreatConnect API."""
-        _session_external = ExternalSession()
-
-        # add User-Agent to headers
-        _session_external.headers.update(registry.app.user_agent)
-
-        # add proxy support if requested
-        if self.model.tc_proxy_external:
-            _session_external.proxies = self.proxies
-            self.log.info(
-                f'Using proxy host {self.model.tc_proxy_host}:'
-                f'{self.model.tc_proxy_port} for external session.'
-            )
-
-        if self.model.tc_log_curl:
-            _session_external.log_curl = log_curl
-
-        return _session_external
-
-    def get_session_tc(
+    def get_session(
         self,
         auth: HmacAuth | TokenAuth | TcAuth | None = None,
         base_url: str | None = None,
@@ -116,6 +90,6 @@ class RequestsSession:
         )
 
     @scoped_property
-    def tc(self) -> TcSession:
+    def session(self) -> TcSession:
         """Return an instance of Requests Session configured for the ThreatConnect API."""
-        return self.get_session_tc()
+        return self.get_session()
